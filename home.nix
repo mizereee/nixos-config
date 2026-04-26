@@ -20,91 +20,102 @@
     font_size = "12.0";
     background_opacity = "0.9";
   };
-  programs.niri = {
-    enable = true;
-    settings = {
-      input = {
-        keyboard = {
-          xkb = {
-            # Переключение раскладки на Alt+Shift
-            layout = "us,ru";
-            options = "grp:alt_shift_toggle";
-          };
-        };
-        mouse = {
-          # Отключаем акселерацию для точного аима в играх
-          accel-profile = "flat"; 
-        };
-      };
-
-      layout = {
-        # Отступы между окнами и краями экрана
-        gaps = 12;
-        center-focused-column = "never";
-
-        # Окна по умолчанию занимают половину экрана
-        default-column-width = { proportion = 0.5; };
-
-        # Рамка вокруг активного окна
-        focus-ring = {
-          enable = true;
-          width = 2;
-          active.color = "#7fc8ff";
-          inactive.color = "#505050";
-        };
-      };
-
-      spawn-at-startup = [
-        { command = [ "alacritty" ]; }
-      ];
-
-      binds = {
-        "Mod+Return".action.spawn = "alacritty";
-        "Mod+D".action.spawn = "fuzzel";
-        "Mod+Q".action.close-window = {};
-        "Mod+Shift+E".action.quit = {};
-
-        # Управление фокусом (стрелки)
-        "Mod+Left".action.focus-column-left = {};
-        "Mod+Right".action.focus-column-right = {};
-        "Mod+Up".action.focus-window-up = {};
-        "Mod+Down".action.focus-window-down = {};
-
-        # Управление фокусом (vim-like)
-        "Mod+H".action.focus-column-left = {};
-        "Mod+L".action.focus-column-right = {};
-        "Mod+K".action.focus-window-up = {};
-        "Mod+J".action.focus-window-down = {};
-
-        # Перемещение окон
-        "Mod+Shift+Left".action.move-column-left = {};
-        "Mod+Shift+Right".action.move-column-right = {};
-        "Mod+Shift+Up".action.move-window-up = {};
-        "Mod+Shift+Down".action.move-window-down = {};
-
-        # Воркспейсы (цифры)
-        "Mod+1".action.focus-workspace = 1;
-        "Mod+2".action.focus-workspace = 2;
-        "Mod+3".action.focus-workspace = 3;
-        "Mod+4".action.focus-workspace = 4;
-        
-        "Mod+Shift+1".action.move-column-to-workspace = 1;
-        "Mod+Shift+2".action.move-column-to-workspace = 2;
-        "Mod+Shift+3".action.move-column-to-workspace = 3;
-        "Mod+Shift+4".action.move-column-to-workspace = 4;
-
-        # Полноэкранный режим
-        "Mod+F".action.maximize-column = {};
-        "Mod+Shift+F".action.fullscreen-window = {};
-      };
-
-      # Правила: например, чтобы список друзей Steam не ломал тайлинг
-      window-rules = [
-        {
-          matches = [ { app-id = "steam"; title = "Friends List"; } ];
-          default-column-width = {};
+  xdg.configFile."niri/config.kdl".text = ''
+    input {
+        keyboard {
+            xkb {
+                layout "us,ru"
+                options "grp:alt_shift_toggle"
+            }
         }
-      ];
+        mouse {
+            accel-profile "flat"
+        }
+    }
+
+    layout {
+        gaps 12
+        center-focused-column "never"
+        default-column-width { proportion 0.5; }
+        focus-ring {
+            width 2
+            active-color "#7fc8ff"
+            inactive-color "#505050"
+        }
+    }
+
+    animations {
+        workspace {
+            spring damping-ratio=1.0 stiffness=1000 mass=1.0
+        }
+        window-open {
+            spring damping-ratio=1.0 stiffness=1000 mass=1.0
+        }
+        window-close {
+            spring damping-ratio=1.0 stiffness=1000 mass=1.0
+        }
+        window-movement {
+            spring damping-ratio=1.0 stiffness=1000 mass=1.0
+        }
+    }
+
+    spawn-at-startup "alacritty"
+
+    binds {
+        Mod+Return { spawn "alacritty"; }
+        Mod+D { spawn "fuzzel"; }
+        Mod+Q { close-window; }
+        Mod+Shift+E { quit; }
+
+        Mod+Left  { focus-column-left; }
+        Mod+Right { focus-column-right; }
+        Mod+Up    { focus-window-up; }
+        Mod+Down  { focus-window-down; }
+
+        Mod+H { focus-column-left; }
+        Mod+L { focus-column-right; }
+        Mod+K { focus-window-up; }
+        Mod+J { focus-window-down; }
+
+        Mod+Shift+Left  { move-column-left; }
+        Mod+Shift+Right { move-column-right; }
+        Mod+Shift+Up    { move-window-up; }
+        Mod+Shift+Down  { move-window-down; }
+
+        Mod+1 { focus-workspace 1; }
+        Mod+2 { focus-workspace 2; }
+        Mod+3 { focus-workspace 3; }
+        Mod+4 { focus-workspace 4; }
+        
+        Mod+Shift+1 { move-column-to-workspace 1; }
+        Mod+Shift+2 { move-column-to-workspace 2; }
+        Mod+Shift+3 { move-column-to-workspace 3; }
+        Mod+Shift+4 { move-column-to-workspace 4; }
+
+        Mod+F { maximize-column; }
+        Mod+Shift+F { fullscreen-window; }
+
+        // Управление звуком
+        XF86AudioRaiseVolume { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%+"; }
+        XF86AudioLowerVolume { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%-"; }
+        XF86AudioMute        { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle"; }
+
+        // Скриншоты (grim + slurp)
+        Print { spawn "sh" "-c" "grim -g \"$(slurp)\" ~/Pictures/screenshot-$(date +'%Y-%m-%d-%H%M%S').png"; }
+    }
+
+    window-rule {
+        match app-id="steam" title="Friends List"
+        default-column-width {}
+    }
+
+    window-rule {
+        match app-id="cs2"
+        open-fullscreen true
+    }
+
+    window-rule {
+        match app-id="fuzzel"
+        focus-ring { off; }
     };
-  };
 }
