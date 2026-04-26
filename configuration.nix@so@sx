@@ -84,7 +84,7 @@
   services.xserver.xkb = {
     layout = "us,ru,ua";
     variant = "";
-    options = "grp:caps_toggle,caps:none";
+    options = "grp:caps_toggle";
   };
 
   # Configure console keymap
@@ -144,7 +144,6 @@
      kitty
      prismlauncher
      spotify
-     cbonsai
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
