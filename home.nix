@@ -118,5 +118,5 @@
         match app-id="fuzzel"
         focus-ring { off; }
     };
-   ";
+   '';
 }
