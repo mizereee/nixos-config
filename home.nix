@@ -20,7 +20,6 @@
     font_size = "12.0";
     background_opacity = "0.9";
   };
-{
   programs.niri = {
     enable = true;
     settings = {
