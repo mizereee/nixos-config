@@ -71,6 +71,32 @@
   # You can disable this if you're only using the Wayland session.
   services.xserver.enable = true;
   programs.niri.enable = true;
+  # Указываем системе использовать проприетарный драйвер
+  services.xserver.videoDrivers = [ "nvidia" ];
+
+  # Включаем поддержку графики (OpenGL/Vulkan)
+  hardware.graphics = {
+    enable = true;
+    enable32Bit = true; # Критично важно для Steam и старых игр!
+  };
+  # Примечание: если у тебя версия NixOS 23.11 или старше, 
+  # вместо hardware.graphics используй hardware.opengl (и driSupport32Bit = true)
+
+  hardware.nvidia = {
+    # Обязательный параметр для работы Wayland-сессий (Niri)
+    modesetting.enable = true;
+
+    # Открытые модули ядра Nvidia (open) нормально работают только на 
+    # архитектуре Turing (RTX 20xx) и новее. 
+    # Для твоей 1050 Ti (Pascal) строго оставляем false!
+    open = false;
+
+    # Включает приложение панели управления Nvidia
+    nvidiaSettings = true;
+
+    # Используем стабильную ветку драйверов
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
+  };
 
   # Enable the KDE Plasma Desktop Environment.
   services.displayManager.sddm.enable = true;
@@ -139,8 +165,15 @@
      kitty
      prismlauncher
      spotify
-     cbonsai
+     swaybg
   ];
+  fileSystems."/mnt/gamedisk" = {
+    device = "/dev/disk/by-uuid/9CA0D0A9A0D08B62";
+    fsType = "ntfs3"; 
+    options = [ "rw" "uid=1000" "gid=100" "nofail" ]; # uid 1000 обычно принадлежит твоему основному юзеру
+  };
+#  programs.gamemode.enable = true;
+
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

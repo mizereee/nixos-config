@@ -8,6 +8,21 @@
     kitty
     # тут можно добавлять личный софт
   ];
+  programs.alacritty = {
+    enable = true;
+  settings = {
+      window = {
+        # Уровень непрозрачности (0.0 — полностью прозрачный, 1.0 — сплошной)
+        opacity = 1.0; 
+        
+        # Внутренние отступы от краев окна
+        padding = {
+          x = 12;
+          y = 12;
+        };
+      };
+    };
+ };
 
   # Включаем Git для пользователя
   programs.git.enable = true;
@@ -27,7 +42,7 @@
         keyboard {
             xkb {
                 layout "us,ru"
-                options "grp:alt_shift_toggle"
+                options "grp:caps_toggle"
             }
         }
         mouse {
