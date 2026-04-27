@@ -21,6 +21,8 @@
     background_opacity = "0.9";
   };
   xdg.configFile."niri/config.kdl".text = ''
+   spawn-at-startup "alacritty"
+   spawn-at-startup "waybar"
     input {
         keyboard {
             xkb {
@@ -41,21 +43,6 @@
             width 2
             active-color "#7fc8ff"
             inactive-color "#505050"
-        }
-    }
-
-    animations {
-        workspace {
-            spring damping-ratio=1.0 stiffness=1000 mass=1.0
-        }
-        window-open {
-            spring damping-ratio=1.0 stiffness=1000 mass=1.0
-        }
-        window-close {
-            spring damping-ratio=1.0 stiffness=1000 mass=1.0
-        }
-        window-movement {
-            spring damping-ratio=1.0 stiffness=1000 mass=1.0
         }
     }
 
@@ -119,4 +106,44 @@
         focus-ring { off; }
     };
    '';
+   programs.waybar = {
+    enable = true;
+   # systemd.enable = true; # Чтобы Waybar сам запускался вместе с Niri
+    settings = {
+      mainBar = {
+        layer = "top";
+        position = "top";
+        height = 30;
+        spacing = 4;
+        
+        # Левая часть панели
+        modules-left = [ "niri/workspaces" "niri/window" ];
+        
+        # Центр
+        modules-center = [ "clock" ];
+        
+        # Правая часть
+        modules-right = [ "tray" "network" "pulseaudio" "hyprland/language" ];
+
+        # Настройка самих модулей
+        "clock" = {
+          format = "{:%H:%M  %d.%m.%Y}";
+        };
+        "pulseaudio" = {
+          format = "Vol: {volume}%";
+          format-muted = "Muted";
+        };
+        "network" = {
+          format-wifi = "WiFi: {essid}";
+          format-ethernet = "Eth: Connected";
+          format-disconnected = "Offline";
+        };
+        "hyprland/language" = {
+          format = "Lang: {}";
+          format-en = "US";
+          format-ru = "RU";
+        };
+      };
+    };
+  };
 }

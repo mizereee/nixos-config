@@ -30,15 +30,11 @@
   #Flakes
   nix.settings.experimental-features = 
   ["nix-command" "flakes"];
-  #Packages
-#  environment.systemPackages = with pkgs; [
- #   vim
-  #  wget
-   # fastfetch
-   # git
-  #  discord
- #   steam
-#  ];
+  programs.steam = {
+  enable = true;
+  remotePlay.openFirewall = true; # Открывает порты для Steam Remote Play
+  dedicatedServer.openFirewall = true; # Открывает порты для выделенных серверов (например, Source)
+};
  
   # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
@@ -136,7 +132,6 @@
      wget
      fastfetch
      git
-     steam
      discord
      telegram-desktop
      fuzzel
