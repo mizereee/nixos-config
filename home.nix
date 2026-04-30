@@ -4,8 +4,11 @@
 
   # Твой софт для пользователя
   home.packages = with pkgs; [
-    fuzzel
     kitty
+    anydesk
+    vesktop
+    libnotify
+    xwayland-satellite
     # тут можно добавлять личный софт
   ];
   programs.alacritty = {
@@ -23,7 +26,6 @@
       };
     };
  };
-
   # Включаем Git для пользователя
   programs.git.enable = true;
   programs.git.userName = "Bard";
@@ -62,7 +64,8 @@
     }
 
     spawn-at-startup "alacritty"
-
+    spawn-at-startup "dbus-update-activation-environment" "--systemd" "WAYLAND_DISPLAY" "DISPLAY" "XDG_CURRENT_DESKTOP"
+    spawn-at-startup "xwayland-satellite"
     binds {
         Mod+Return { spawn "alacritty"; }
         Mod+D { spawn "fuzzel"; }
@@ -104,6 +107,7 @@
 
         // Скриншоты (grim + slurp)
         Print { spawn "sh" "-c" "grim -g \"$(slurp)\" ~/Pictures/screenshot-$(date +'%Y-%m-%d-%H%M%S').png"; }
+        Page_Down { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SOURCE@" "toggle"; }
     }
 
     window-rule {
@@ -128,21 +132,35 @@
       mainBar = {
         layer = "top";
         position = "top";
-        height = 30;
+        height = 34;
+
+	#Отступы
+
         spacing = 4;
+	margin-top = 8;
+	margin-right = 12;
+	margin-left = 12;
         
         # Левая часть панели
-        modules-left = [ "niri/workspaces" "niri/window" ];
+        modules-left = [ "niri/workspaces"  ];
         
         # Центр
-        modules-center = [ "clock" ];
+        # modules-center = [ "clock" ];
         
         # Правая часть
-        modules-right = [ "tray" "network" "pulseaudio" "hyprland/language" ];
+        modules-right = [ "tray" "network" "pulseaudio" "hyprland/language" "clock" ];
 
         # Настройка самих модулей
-        "clock" = {
+	"niri/workspaces" = {
+          format = "{icon}";
+          format-icons = {
+            active = "●";
+            default = "○";
+          };
+        };	       
+	 "clock" = {
           format = "{:%H:%M  %d.%m.%Y}";
+	  tooltip-format = "<tt>{calendar}</tt>";
         };
         "pulseaudio" = {
           format = "Vol: {volume}%";
@@ -160,5 +178,94 @@
         };
       };
     };
+	style = ''
+      * {
+        border: none;
+        border-radius: 0;
+        font-family: sans-serif;
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      window#waybar {
+        /* Темно-синий полупрозрачный фон */
+        background: rgba(30, 30, 46, 0.85); 
+        border-radius: 14px;
+        color: #cdd6f4;
+      }
+
+      /* Общий стиль для всех "плашек" на панели */
+      #workspaces, #window, #clock, #pulseaudio, #network, #tray {
+        margin: 4px 6px;
+        padding: 2px 14px;
+        border-radius: 10px;
+        /* Фон самих плашек (чуть темнее панели) */
+        background: rgba(24, 24, 37, 0.6); 
+      }
+
+      /* Стили для воркспейсов (точек слева) */
+      #workspaces button {
+        color: #6c7086;
+        padding: 0 4px;
+        background: transparent;
+      }
+      #workspaces button:hover {
+        background: transparent;
+        color: #cdd6f4;
+      }
+      #workspaces button.active {
+        color: #a6da95; /* Зеленый для активного окна */
+      }
+
+      /* Раскрашиваем текст модулей */
+      #clock { color: #8aadf4; }       /* Голубой */
+      #pulseaudio { color: #f9e2af; }  /* Желтый */
+      #network { color: #cba6f7; }     /* Фиолетовый */
+      #window { color: #cdd6f4; }      /* Белый текст заголовка */
+    '';
+
+ };
+	programs.fuzzel = {
+    enable = true;
+    settings = {
+      main = {
+        terminal = "alacritty";      # Чтобы консольные приложения открывались в нужном терминале
+        layer = "overlay";           # Показывать поверх всех окон
+        prompt = "\"❯   \"";         # Красивый значок поиска
+        font = "sans-serif:size=14"; # Шрифт и размер
+        lines = 10;                  # Количество строк в поиске
+        width = 30;                  # Ширина окна
+        horizontal-pad = 16;         # Отступы по бокам
+        vertical-pad = 12;           # Отступы сверху и снизу
+        inner-pad = 8;               # Отступ между строками
+        border-width = 2;            # Толщина рамки
+        border-radius = 12;          # Закругление углов
+      };
+      colors = {
+        # Важно: цвета здесь в формате RRGGBBAA (последние 2 символа — это прозрачность)
+        # "ff" — полностью непрозрачный, "ee" или "cc" — полупрозрачный, "00" — невидимый
+        background = "181825ee";      # Темный полупрозрачный фон
+        text = "cdd6f4ff";            # Основной текст (бело-серый)
+        match = "8aadf4ff";           # Подсветка совпадений (голубой)
+        selection = "313244ff";       # Фон выделенной строки (серый)
+        selection-text = "cdd6f4ff";  # Текст выделенной строки
+        selection-match = "8aadf4ff"; # Совпадение в выделенной строке
+        border = "8aadf4ff";          # Цвет рамки (голубой)
+      };
+    };
+  };
+	services.mako = {
+    enable = true;
+    font = "sans-serif 12";
+    width = 300;
+    height = 100;
+    margin = "20";               # Отступ от края экрана
+    padding = "15";              # Внутренние отступы текста
+    borderSize = 2;              # Толщина рамки
+    borderRadius = 12;           # Закругление углов
+    backgroundColor = "#181825ee"; # Темный фон как в лаунчере
+    borderColor = "#8aadf4ff";     # Голубая рамка
+    textColor = "#cdd6f4ff";       # Светлый текст
+    defaultTimeout = 5000;         # Уведомление исчезнет само через 5 секунд
   };
 }

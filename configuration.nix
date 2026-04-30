@@ -160,7 +160,6 @@
      git
      discord
      telegram-desktop
-     fuzzel
      waybar
      kitty
      prismlauncher
