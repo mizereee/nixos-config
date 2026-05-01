@@ -71,6 +71,7 @@
   # You can disable this if you're only using the Wayland session.
   services.xserver.enable = true;
   programs.niri.enable = true;
+  programs.zsh.enable = true;
   # Указываем системе использовать проприетарный драйвер
   services.xserver.videoDrivers = [ "nvidia" ];
 
@@ -141,8 +142,8 @@
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
       kdePackages.kate
-    #  thunderbird
     ];
+    shell = pkgs.zsh;
   };
 
   # Install firefox.
@@ -168,7 +169,7 @@
   ];
   fileSystems."/mnt/gamedisk" = {
     device = "/dev/disk/by-uuid/9CA0D0A9A0D08B62";
-    fsType = "ntfs3"; 
+    fsType = "ntfs-3g"; 
     options = [ "rw" "uid=1000" "gid=100" "nofail" ]; # uid 1000 обычно принадлежит твоему основному юзеру
   };
 #  programs.gamemode.enable = true;

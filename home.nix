@@ -9,6 +9,8 @@
     vesktop
     libnotify
     xwayland-satellite
+    ntfs3g
+    fzf
     # тут можно добавлять личный софт
   ];
   programs.alacritty = {
@@ -268,4 +270,25 @@
     textColor = "#cdd6f4ff";       # Светлый текст
     defaultTimeout = 5000;         # Уведомление исчезнет само через 5 секунд
   };
+   programs.zsh = {
+    enable = true;
+    enableCompletion = true;
+    enableAutosuggestions = true;
+    enableSyntaxHighlighting = true;
+    };
 }
+
+
+#shellAliases = {
+    #ll = "ls -l";
+   #update = "sudo nixos-rebuild switch";
+    # Добавьте свои любимые алиасы
+    #};
+
+ # ohMyZsh = {
+   # enable = true;
+  #  plugins = [ "git" "sudo" ];
+ #   theme = "robbyrussell"; # Или любой другой, Cachy использует кастомный, но этот близок
+    # };
+
+
