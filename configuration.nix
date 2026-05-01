@@ -10,37 +10,8 @@
       ./hardware-configuration.nix
       ./system/system.nix
       ./system/drova.nix
+      ./system/core.nix
     ];
-  # Use latest kernel.
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-
-  networking.hostName = "nixos"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-  # Enable networking
-  networking.networkmanager.enable = true;
-
-  # Set your time zone.
-  time.timeZone = "Europe/Kyiv";
-
-  # Select internationalisation properties.
-  i18n.defaultLocale = "ru_UA.UTF-8";
-
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "uk_UA.UTF-8";
-    LC_IDENTIFICATION = "uk_UA.UTF-8";
-    LC_MEASUREMENT = "uk_UA.UTF-8";
-    LC_MONETARY = "uk_UA.UTF-8";
-    LC_NAME = "uk_UA.UTF-8";
-    LC_NUMERIC = "uk_UA.UTF-8";
-    LC_PAPER = "uk_UA.UTF-8";
-    LC_TELEPHONE = "uk_UA.UTF-8";
-    LC_TIME = "uk_UA.UTF-8";
-  };
 
   # Enable the X11 windowing system.
   # You can disable this if you're only using the Wayland session.
@@ -57,12 +28,8 @@
     layout = "us,ru,ua";
     variant = "";
     options = "grp:caps_toggle,caps:none";
-  };
-
-  # Configure console keymap
-  console.keyMap = "ua-utf";
-
-  # Enable CUPS to print documents.
+  }
+  #Enable CUPS to print documents.
   services.printing.enable = true;
 
   # Enable sound with pipewire.
@@ -80,21 +47,6 @@
     # no need to redefine it in your config for now)
     #media-session.enable = true;
   };
-
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
-
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.miscere = {
-    isNormalUser = true;
-    description = "miscere";
-    extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [
-      kdePackages.kate
-    ];
-    shell = pkgs.zsh;
-  };
-
   # Install firefox.
   programs.firefox.enable = true;
 
@@ -105,23 +57,23 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
      vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-     wget
-     fastfetch
-     git
-     discord
+     wgetrd
      telegram-desktop
      waybar
      kitty
+     fastfetch
+     git
+     disco
      prismlauncher
      spotify
      swaybg
+     nixd
   ];
   fileSystems."/mnt/gamedisk" = {
     device = "/dev/disk/by-uuid/9CA0D0A9A0D08B62";
     fsType = "ntfs-3g"; 
     options = [ "rw" "uid=1000" "gid=100" "nofail" ]; # uid 1000 обычно принадлежит твоему основному юзеру
-  };
-#  programs.gamemode.enable = true;
+  };;
 
 
   # Some programs need SUID wrappers, can be configured further or are
