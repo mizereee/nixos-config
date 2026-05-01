@@ -275,20 +275,18 @@
     enableCompletion = true;
     enableAutosuggestions = true;
     enableSyntaxHighlighting = true;
+    shellAliases = {
+      ll = "ls -l";
+      update = "sudo nixos-rebuild switch --flake ~/nixos-config";
+      cfg = "cd ~/nixos-config";
     };
+    oh-my-zsh = {
+    enable = true;
+    plugins = [
+    "git"
+    "sudo"
+    ];
+    theme = "darkblood";
+    };
+  };
 }
-
-
-#shellAliases = {
-    #ll = "ls -l";
-   #update = "sudo nixos-rebuild switch";
-    # Добавьте свои любимые алиасы
-    #};
-
- # ohMyZsh = {
-   # enable = true;
-  #  plugins = [ "git" "sudo" ];
- #   theme = "robbyrussell"; # Или любой другой, Cachy использует кастомный, но этот близок
-    # };
-
-

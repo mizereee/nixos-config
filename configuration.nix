@@ -8,34 +8,9 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ./system/system.nix
+      ./system/drova.nix
     ];
-
-  # Bootloader.
-  #  boot.loader.systemd-boot.enable = true;
-  # boot.loader.efi.canTouchEfiVariables = true;
-  boot.loader = {
-   efi = {
-    canTouchEfiVariables = true;
-    efiSysMountPoint = "/boot";
-   };
-   grub = {
-   enable = true;
-   device = "nodev";
-   efiSupport = true;
-   useOSProber = true;
-   configurationLimit = 5;
-   };
- };
- 
-  #Flakes
-  nix.settings.experimental-features = 
-  ["nix-command" "flakes"];
-  programs.steam = {
-  enable = true;
-  remotePlay.openFirewall = true; # Открывает порты для Steam Remote Play
-  dedicatedServer.openFirewall = true; # Открывает порты для выделенных серверов (например, Source)
-};
- 
   # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
@@ -72,33 +47,7 @@
   services.xserver.enable = true;
   programs.niri.enable = true;
   programs.zsh.enable = true;
-  # Указываем системе использовать проприетарный драйвер
-  services.xserver.videoDrivers = [ "nvidia" ];
-
-  # Включаем поддержку графики (OpenGL/Vulkan)
-  hardware.graphics = {
-    enable = true;
-    enable32Bit = true; # Критично важно для Steam и старых игр!
-  };
-  # Примечание: если у тебя версия NixOS 23.11 или старше, 
-  # вместо hardware.graphics используй hardware.opengl (и driSupport32Bit = true)
-
-  hardware.nvidia = {
-    # Обязательный параметр для работы Wayland-сессий (Niri)
-    modesetting.enable = true;
-
-    # Открытые модули ядра Nvidia (open) нормально работают только на 
-    # архитектуре Turing (RTX 20xx) и новее. 
-    # Для твоей 1050 Ti (Pascal) строго оставляем false!
-    open = false;
-
-    # Включает приложение панели управления Nvidia
-    nvidiaSettings = true;
-
-    # Используем стабильную ветку драйверов
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
-  };
-
+  programs.git.enable = true;
   # Enable the KDE Plasma Desktop Environment.
   services.displayManager.sddm.enable = true;
   services.desktopManager.plasma6.enable = true;
