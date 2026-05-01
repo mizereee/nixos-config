@@ -28,7 +28,7 @@
     layout = "us,ru,ua";
     variant = "";
     options = "grp:caps_toggle,caps:none";
-  }
+  };
   #Enable CUPS to print documents.
   services.printing.enable = true;
 
@@ -57,24 +57,12 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
      vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-     wgetrd
-     telegram-desktop
      waybar
-     kitty
      fastfetch
      git
-     disco
-     prismlauncher
-     spotify
      swaybg
      nixd
   ];
-  fileSystems."/mnt/gamedisk" = {
-    device = "/dev/disk/by-uuid/9CA0D0A9A0D08B62";
-    fsType = "ntfs-3g"; 
-    options = [ "rw" "uid=1000" "gid=100" "nofail" ]; # uid 1000 обычно принадлежит твоему основному юзеру
-  };;
-
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

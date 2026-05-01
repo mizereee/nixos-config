@@ -1,18 +1,22 @@
-{ config,  pkgs, ... }: {
+{ config,  pkgs, ... }:
+{
+  imports = [
+  ./apps/packages.nix
+  ];
   # Версия Home Manager (оставляем как в системе)
-  home.stateVersion = "25.05";
+  home.stateVersion = "25.11";
 
   # Твой софт для пользователя
-  home.packages = with pkgs; [
-    kitty
-    anydesk
-    vesktop
-    libnotify
-    xwayland-satellite
-    ntfs3g
-    fzf
+#home.packages = with pkgs; [
+#    kitty
+#    anydesk
+#    vesktop
+#    libnotify
+#    xwayland-satellite
+#    ntfs3g
+#    fzf
     # тут можно добавлять личный софт
-  ];
+#  ];
   programs.alacritty = {
     enable = true;
   settings = {

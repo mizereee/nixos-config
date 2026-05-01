@@ -29,8 +29,7 @@
 
   #ну блять понятно что сеть<3<3<3<3
   networking.networkmanager.enable = true;
-
-  networking.hostName = "nixos" #имя моего хоста СУКА ПИЗДА ВАЖНО ЧТОБ БЫЛО ОДНО
+  networking.hostName = "nixos"; #имя моего хоста СУКА ПИЗДА ВАЖНО ЧТОБ БЫЛО ОДНО
 
 
 
@@ -45,11 +44,11 @@
     device = "/dev/disk/by-uuid/9CA0D0A9A0D08B62";
     fsType = "ntfs-3g";
     options = [ "rw" "uid=1000" "gid=100" "nofail" ]; # uid 1000 обычно это основной юзер
-  };;
-
-
-
-
-
-
+  };
 }
+
+
+
+
+
+
