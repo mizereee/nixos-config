@@ -4,7 +4,7 @@
   ./apps/packages.nix
   ];
   # Версия Home Manager (оставляем как в системе)
-  home.stateVersion = "25.11";
+  home.stateVersion = "25.05";
 
   # Твой софт для пользователя
 #home.packages = with pkgs; [
