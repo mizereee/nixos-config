@@ -9,7 +9,7 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ./system/system.nix
-      ./system/drova.nix
+#      ./system/drova.nix
       ./system/core.nix
     ];
 
