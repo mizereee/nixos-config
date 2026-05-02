@@ -25,7 +25,7 @@
   remotePlay.openFirewall = true; # Открывает порты для Steam Remote Play
   dedicatedServer.openFirewall = true; # Открывает порты для выделенных серверов (например, Source)
     };
-  # services.xserver.libinput.enable = true; #поддержка тачпада
+  services.xserver.libinput.enable = true; #поддержка тачпада
 
   #ну блять понятно что сеть<3<3<3<3
   networking.networkmanager.enable = true;
