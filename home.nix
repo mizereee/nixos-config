@@ -6,17 +6,6 @@
   # Версия Home Manager (оставляем как в системе)
   home.stateVersion = "25.05";
 
-  # Твой софт для пользователя
-#home.packages = with pkgs; [
-#    kitty
-#    anydesk
-#    vesktop
-#    libnotify
-#    xwayland-satellite
-#    ntfs3g
-#    fzf
-    # тут можно добавлять личный софт
-#  ];
   programs.alacritty = {
     enable = true;
   settings = {
@@ -69,11 +58,11 @@
         }
     }
 
-    spawn-at-startup "alacritty"
+    spawn-at-startup "noctalia-shell"
     spawn-at-startup "dbus-update-activation-environment" "--systemd" "WAYLAND_DISPLAY" "DISPLAY" "XDG_CURRENT_DESKTOP"
     spawn-at-startup "xwayland-satellite"
     binds {
-        Mod+Return { spawn "alacritty"; }
+        Mod+Return { spawn "konsole"; }
         Mod+D { spawn "fuzzel"; }
         Mod+Q { close-window; }
         Mod+Shift+E { quit; }
@@ -132,7 +121,7 @@
     };
    '';
    programs.waybar = {
-    enable = true;
+#    enable = true;
    # systemd.enable = true; # Чтобы Waybar сам запускался вместе с Niri
     settings = {
       mainBar = {

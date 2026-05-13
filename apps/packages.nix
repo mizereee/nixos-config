@@ -9,8 +9,18 @@
     ntfs3g
     fzf
     discord
-    prismlauncher
     telegram-desktop
-
-    ];
+    easyeffects
+    rust-analyzer
+    cargo
+    rustc
+    gcc
+    pkg-config
+    openssl
+    rustfmt
+    clippy
+    helix
+    jdk21
+    unstable.noctalia-shell
+  ];
 }

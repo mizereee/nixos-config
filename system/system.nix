@@ -30,14 +30,15 @@
   #ну блять понятно что сеть<3<3<3<3
   networking.networkmanager.enable = true;
   networking.hostName = "nixos"; #имя моего хоста СУКА ПИЗДА ВАЖНО ЧТОБ БЫЛО ОДНО
-
-
+  #services.zerotierone.enable = true;
+  services.tailscale.enable = true;
 
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+  services.flatpak.enable = true;
 
 
   fileSystems."/mnt/gamedisk" = {
